@@ -49,19 +49,12 @@ class Rover:
         """
         if not self.connected:
             raise RoverConnectionLostError
-        if self.direction == NORTH:
-            new_position = [self.position[0], self.position[1] + 1]
-        elif self.direction == EAST:
-            new_position = [self.position[0] + 1, self.position[1]]
-        elif self.direction == SOUTH:
-            new_position = [self.position[0], self.position[1] - 1]
-        elif self.direction == WEST:
-            new_position = [self.position[0] - 1, self.position[1]]
+        new_position = self.position + self.direction
         if (
-            new_position[0] > self.grid.max_x
-            or new_position[1] > self.grid.max_y
-            or new_position[0] < 0
-            or new_position[1] < 0
+            new_position[0][0] > self.grid.max_x
+            or new_position[1][0] > self.grid.max_y
+            or new_position[0][0] < 0
+            or new_position[1][0] < 0
         ):
             self.connected = False
             return

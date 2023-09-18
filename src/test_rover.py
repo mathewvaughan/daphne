@@ -1,4 +1,5 @@
 import pytest
+from pymatrix import matrix  # type: ignore
 
 from src.rover import EAST, NORTH, SOUTH, WEST, Rover, RoverConnectionLostError
 
@@ -16,12 +17,12 @@ def grid_fixture():
 
 @pytest.fixture(name="rover")
 def rover_fixture(grid):
-    return Rover(position=[1, 1], direction=NORTH, grid=grid)
+    return Rover(position=matrix([[1], [1]]), direction=NORTH, grid=grid)
 
 
 def test_reporting_telemetry(grid):
-    rover = Rover(position=[0, 0], direction=NORTH, grid=grid)
-    assert rover.position == [0, 0]
+    rover = Rover(position=matrix([[0], [0]]), direction=NORTH, grid=grid)
+    assert rover.position == matrix([[0], [0]])
     assert rover.direction == NORTH
 
 
@@ -49,33 +50,33 @@ def test_turning_right(rover):
 
 def test_moving_forward_north(rover):
     rover.forward()
-    assert rover.position == [1, 2]
+    assert rover.position == matrix([[1], [2]])
 
 
 def test_moving_forward_east(rover):
     rover.right()
     rover.forward()
-    assert rover.position == [2, 1]
+    assert rover.position == matrix([[2], [1]])
 
 
 def test_moving_forward_south(rover):
     rover.right()
     rover.right()
     rover.forward()
-    assert rover.position == [1, 0]
+    assert rover.position == matrix([[1], [0]])
 
 
 def test_moving_forward_west(rover):
     rover.left()
     rover.forward()
-    assert rover.position == [0, 1]
+    assert rover.position == matrix([[0], [1]])
 
 
 def test_pushing_to_edge_of_grid_north(rover):
     rover.forward()
     rover.forward()
     assert rover.connected is False
-    assert rover.position == [1, 2]
+    assert rover.position == matrix([[1], [2]])
 
 
 def test_if_rover_dead_it_cannot_receieve_another_command(rover):

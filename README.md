@@ -23,6 +23,7 @@ I'm going to approach this task in a few stages.
 1. Rover death.
 1. Rover death avoidance.
 1. Top level orchestrator that can translate the string commands into useful actions for our interfaces, allowing new starting positions and grid shapes!
+1. Handling sequential rovers
 1. Review
 
 

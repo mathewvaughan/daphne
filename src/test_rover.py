@@ -1,6 +1,6 @@
 import pytest
 
-from src.rover import Rover, RoverConnectionLostError
+from src.rover import EAST, NORTH, SOUTH, WEST, Rover, RoverConnectionLostError
 
 
 class Grid:
@@ -16,35 +16,35 @@ def grid_fixture():
 
 @pytest.fixture(name="rover")
 def rover_fixture(grid):
-    return Rover(position=[1, 1], direction="N", grid=grid)
+    return Rover(position=[1, 1], direction=NORTH, grid=grid)
 
 
 def test_reporting_telemetry(grid):
-    rover = Rover(position=[0, 0], direction="N", grid=grid)
+    rover = Rover(position=[0, 0], direction=NORTH, grid=grid)
     assert rover.position == [0, 0]
-    assert rover.direction == "N"
+    assert rover.direction == NORTH
 
 
 def test_turning_left(rover):
     rover.left()
-    assert rover.direction == "W"
+    assert rover.direction == WEST
     rover.left()
-    assert rover.direction == "S"
+    assert rover.direction == SOUTH
     rover.left()
-    assert rover.direction == "E"
+    assert rover.direction == EAST
     rover.left()
-    assert rover.direction == "N"
+    assert rover.direction == NORTH
 
 
 def test_turning_right(rover):
     rover.right()
-    assert rover.direction == "E"
+    assert rover.direction == EAST
     rover.right()
-    assert rover.direction == "S"
+    assert rover.direction == SOUTH
     rover.right()
-    assert rover.direction == "W"
+    assert rover.direction == WEST
     rover.right()
-    assert rover.direction == "N"
+    assert rover.direction == NORTH
 
 
 def test_moving_forward_north(rover):

@@ -536,6 +536,17 @@ spelling = ["pyenchant (>=3.2,<4.0)"]
 testutils = ["gitpython (>3)"]
 
 [[package]]
+name = "pymatrix"
+version = "3.0.1"
+description = "A lightweight matrix module in pure Python."
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pymatrix-3.0.1.tar.gz", hash = "sha256:bb28ee5b76b91a6987da593f2e62a09aed771bc97a81c939fb423fc457591b9b"},
+]
+
+[[package]]
 name = "pytest"
 version = "7.4.2"
 description = "pytest: simple powerful testing with Python"
@@ -869,4 +880,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "5a702a11ce38f8bcfc4b89ed9d03a0cd3652b4bde5f24b9d2cbe408d24d4b824"
+content-hash = "7659c1a077479a05a907a0e13e4763bf58747427bb6d4f4240d1f8507e0a7660"

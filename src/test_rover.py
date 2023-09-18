@@ -1,6 +1,6 @@
 import pytest
 
-from src.rover import Rover
+from src.rover import Rover, RoverConnectionLostError
 
 
 class Grid:
@@ -9,13 +9,18 @@ class Grid:
         self.max_y = 2
 
 
+@pytest.fixture(name="grid")
+def grid_fixture():
+    return Grid()
+
+
 @pytest.fixture(name="rover")
-def rover_fixture():
-    return Rover(position=[1, 1], direction="N", grid=Grid())
+def rover_fixture(grid):
+    return Rover(position=[1, 1], direction="N", grid=grid)
 
 
-def test_reporting_telemetry():
-    rover = Rover(position=[0, 0], direction="N", grid=Grid())
+def test_reporting_telemetry(grid):
+    rover = Rover(position=[0, 0], direction="N", grid=grid)
     assert rover.position == [0, 0]
     assert rover.direction == "N"
 
@@ -66,7 +71,20 @@ def test_moving_forward_west(rover):
     assert rover.position == [0, 1]
 
 
-# def test_pushing_to_edge_of_grid_north(rover):
-#     with pytest.raises(RoverConnectionLostError):
-#         rover.forward()
-#         rover.forward()
+def test_pushing_to_edge_of_grid_north(rover):
+    rover.forward()
+    rover.forward()
+    assert rover.connected is False
+    assert rover.position == [1, 2]
+
+
+def test_if_rover_dead_it_cannot_receieve_another_command(rover):
+    rover.forward()
+    rover.forward()
+    assert rover.connected is False
+    with pytest.raises(RoverConnectionLostError):
+        rover.forward()
+    with pytest.raises(RoverConnectionLostError):
+        rover.left()
+    with pytest.raises(RoverConnectionLostError):
+        rover.right()

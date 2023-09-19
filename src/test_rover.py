@@ -6,7 +6,7 @@ from src.rover import EAST, NORTH, SOUTH, WEST, Grid, Rover, RoverConnectionLost
 
 @pytest.fixture(name="grid")
 def grid_fixture():
-    return Grid()
+    return Grid(2, 2)
 
 
 @pytest.fixture(name="rover")

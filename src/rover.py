@@ -6,9 +6,9 @@ class RoverConnectionLostError(Exception):
 
 
 class Grid:
-    def __init__(self) -> None:
-        self.max_x = 2
-        self.max_y = 2
+    def __init__(self, max_x, max_y) -> None:
+        self.max_x = max_x
+        self.max_y = max_y
         self.death_points: list[Matrix] = []
 
     def register_death_point(self, point):
@@ -29,10 +29,10 @@ TURN_RIGHT = matrix([[0, 1], [-1, 0]])
 
 class Rover:
     def __init__(self, position, direction, grid) -> None:
-        self.position = position
-        self.direction = direction
-        self.grid = grid
-        self.connected = True
+        self.position: Matrix = position
+        self.direction: Matrix = direction
+        self.grid: Grid = grid
+        self.connected: bool = True
 
     def left(self):
         """Rotate the rover 90 degrees to the left.

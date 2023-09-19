@@ -14,6 +14,8 @@ To run the tests run:
 
 `poetry run task test`
 
+If you want to double check this meets the spec, theres an integration test in 'test_game' using the same input/output strings provided in the spec.
+
 ## Approach
 
 I'm going to approach this task in a few stages.
@@ -23,12 +25,16 @@ I'm going to approach this task in a few stages.
 1. Rover death. ✅
 1. Handling sequential rovers ✅
 1. Rover death avoidance. ✅
-1. Top level orchestrator that can translate the string commands into useful actions for our interfaces, allowing new starting positions and grid shapes!
-1. Review
+1. Top level orchestrator that can translate the string commands into useful actions for our interfaces, allowing new starting positions and grid shapes! ✅
+1. Review ✅
 
 Working Notes:
 - I've got to the stage where I need to implement death avoidance. I know that the grid will need to track the last known position of dead rovers, so I'm about to start cleaning up the responsibilities of the two objects a little bit. One thing I don't really like so far is how I've used strings to represent directions. I can simplify a lot of the implementation by using vectors/matrices. Along those same lines I don't think the interface of the rover should return strings either, so I'm going to switch up how the telemetry is returned to the caller as well as the underlying implementation. After these two refactors it should be clearer how to implement sequential rovers and rover death.
 
 
-TODO:
-Talk about extending interface of the rover to allow more flexible commands.
+Review:
+- Firstly to address increased flexibility of commands I've modelled positions and directions with matrices and vectors which provides a basis for their extension. One caveat is the death avoidance currently depends on the 'would be' position of the vehicle if it had not lost connection; if we had more flexible mechanics then this wouldn't be sufficient for death avoidance of subsequent rovers.
+- I've separated the creation of the game world, report and orchestration of the game at the top level, and modelled the core concepts separately from these still. 
+- I'm a big fan of this kata, btw!
+
+Hope you have enjoyed my submission!

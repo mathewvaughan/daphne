@@ -19,6 +19,16 @@ def translate_direction_to_vector(direction):
     return matrix([[-1], [0]])
 
 
+def translate_vector_direction_to_string(direction):
+    if direction == matrix([[0], [1]]):
+        return "N"
+    if direction == matrix([[1], [0]]):
+        return "E"
+    if direction == matrix([[0], [-1]]):
+        return "S"
+    return "W"
+
+
 @dataclass
 class World:
     grid: Grid
@@ -49,3 +59,15 @@ def build_world(command) -> World:
         commands[rover] = [*lines[i + 1]]
         rovers.append(rover)
     return World(grid, rovers, commands)
+
+
+def generate_report(rovers: list[Rover]):
+    result = ""
+    for rover in rovers:
+        position = str(rover.position).replace("\n", " ")
+        direction = translate_vector_direction_to_string(rover.direction)
+        telemetry_line = f"{position} {direction}"
+        if not rover.connected:
+            telemetry_line = telemetry_line + " LOST"
+        result = result + telemetry_line + "\n"
+    return result

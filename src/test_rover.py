@@ -1,13 +1,7 @@
 import pytest
 from pymatrix import matrix  # type: ignore
 
-from src.rover import EAST, NORTH, SOUTH, WEST, Rover, RoverConnectionLostError
-
-
-class Grid:
-    def __init__(self) -> None:
-        self.max_x = 2
-        self.max_y = 2
+from src.rover import EAST, NORTH, SOUTH, WEST, Grid, Rover, RoverConnectionLostError
 
 
 @pytest.fixture(name="grid")
@@ -89,3 +83,17 @@ def test_if_rover_dead_it_cannot_receieve_another_command(rover):
         rover.left()
     with pytest.raises(RoverConnectionLostError):
         rover.right()
+
+
+def test_second_rover_ignores_suicidal_command(grid):
+    rover = Rover(position=matrix([[2], [2]]), direction=NORTH, grid=grid)
+    rover2 = Rover(position=matrix([[2], [1]]), direction=NORTH, grid=grid)
+    rover.forward()
+    assert rover.connected is False
+    rover2.forward()
+    rover2.forward()
+    assert rover2.position == matrix([[2], [2]])
+    assert rover2.connected is True
+    rover2.left()
+    rover2.forward()
+    assert rover2.position == matrix([[1], [2]])

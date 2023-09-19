@@ -1,6 +1,6 @@
 from pymatrix import matrix  # type: ignore
 
-from src.game import FORWARD, LEFT, RIGHT, build_world, generate_report
+from src.game import FORWARD, LEFT, RIGHT, build_world, generate_report, run_game
 from src.rover import EAST, NORTH, Grid, Rover
 
 input_command = """
@@ -16,8 +16,7 @@ FRRFLLFFRRFLL
 LLFFFLFLFL
 """
 
-output = """
-1 1 E
+output = """1 1 E
 3 3 N LOST
 2 3 S
 """
@@ -48,3 +47,7 @@ def test_reporter():
     lost_rover.forward()
     lost_rover.forward()
     assert generate_report([rover1, lost_rover]) == "0 1 N\n0 1 N LOST\n"
+
+
+def test_game():
+    assert run_game(input_command) == output

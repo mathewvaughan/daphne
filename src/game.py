@@ -43,7 +43,7 @@ def build_world(command) -> World:
         command (str): The command string for the system
 
     Returns:
-        _type_: World
+        World: World
     """
     lines = command.split("\n")
     lines = [line.strip() for line in lines if line.strip()]
@@ -71,3 +71,27 @@ def generate_report(rovers: list[Rover]):
             telemetry_line = telemetry_line + " LOST"
         result = result + telemetry_line + "\n"
     return result
+
+
+def run_game(command_string):
+    """Runs the game from a command string.
+
+    Args:
+        command (str): The command string for the system
+
+
+    Returns:
+        str: User friendly output of the game
+    """
+    world = build_world(command_string)
+    for rover in world.rovers:
+        for command in world.commands[rover]:
+            if not rover.connected:
+                break
+            if command == FORWARD:
+                rover.forward()
+            elif command == LEFT:
+                rover.left()
+            else:
+                rover.right()
+    return generate_report(world.rovers)
